@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECUScan v0.1</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container" id="container">
+
+        <h2>ECUScan v0.1</h2>
+
+        <div class="container-dot">
+            <div id="dot" class="dot"></div>
+            <div id="connected">Not connected</div>
+        </div>
+
+
+        <div class="row">
+            <div class="col">
+                <select id="ports"></select>
+            </div>
+
+            <div class="col">
+                <button class="button-custom green" id="connect" onclick="connect()">Connect</button>
+            </div>
+
+            <div class="col">
+                <button class="button-custom red" id="disconnect" onclick="disconnect()" disabled>Disconnect</button>
+
+            </div>
+            <div class="col">
+                <button class="button-custom yellow" id="unwatch_all" onclick="unwatchAll()" disabled>Unwatch
+                    all</button>
+            </div>
+
+        </div>
+
+
+        <!-- 
+
+        <div class="row">
+            <div class="col">
+                <label>Available sensors</label>
+                <div class="checkbox-list" id="sensorsList">
+                </div>
+            </div>
+            <div class="col">
+                <label>Available DTCs</label>
+                <div class="checkbox-list" id="dtcsList">
+                </div>
+            </div>
+
+            <div class="col">
+                <label>Available PIDs</label>
+                <div class="checkbox-list" id="pidsList">
+                </div>
+            </div>
+
+            <div class="col">
+                <ul id="watchValues"></ul>
+            </div>
+
+        </div>
+
+         <div id="terminal" class="terminal">
+            <div id="terminal-output" class="terminal-output"></div>
+        </div>
+
+            <canvas id="lineChart"></canvas>
+
+        <div class="loader" id="loader"></div>
+
+
+    </div> -->
+
+        <div class="loader" id="loader"></div>
+
+
+        <div class="tabs">
+            <div class="tab active" data-tab="tab1">Sensors</div>
+            <div class="tab" data-tab="tab2">Graph</div>
+            <div class="tab" data-tab="tab3">DTCs</div>
+            <div class="tab" data-tab="tab4">PIDs</div>
+        </div>
+
+        <div class="tab-content active" id="tab1">
+            <h2>Available sensors</h2>
+
+            <div class="row">
+                <div class="col">
+                    <div class="checkbox-list" id="sensorsList">
+                    </div>
+                </div>
+                <div class="col">
+                    <ul id="watchValues"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab2">
+            <h2>Graph</h2>
+            <canvas id="lineChart"></canvas>
+        </div>
+
+
+        <div class="tab-content" id="tab3">
+            <h2>Available DTCs</h2>
+            <div class="checkbox-list" id="dtcsList"></div>
+        </div>
+
+        <div class="tab-content" id="tab4">
+            <h2>Available PIDs</h2>
+            <div class="checkbox-list" id="pidsList"></div>
+        </div>
+
+
+        <div id="terminal" class="terminal">
+            <div id="terminal-output" class="terminal-output"></div>
+        </div>
+
+    </div>
+
+    
+
+
+</body>
+<script src="js/main.js"></script>
+<script src="js/ecuscan_py.js"></script>
+<script src="js/chart_controller.js"></script>
+<script>
+    window.onload = () => {
+        getPorts()
+    }
+
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Rimuove la classe active da tutti i tab e i contenuti
+            document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
+
+            // Aggiunge la classe active al tab cliccato e al contenuto corrispondente
+            tab.classList.add('active');
+            document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+        });
+    });
+</script>
+
+</html>
