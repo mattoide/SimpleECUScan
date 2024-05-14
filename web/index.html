@@ -30,7 +30,13 @@
             </div>
 
             <div class="col">
-                <button class="button-custom green" id="connect" onclick="connect()">Connect</button>
+                <button class="button-custom yellow" id="reload_ports" onclick="getPorts()">Reload ports list</button>
+            </div>
+                      <div class="col">
+                <button class="button-custom green" id="connect" onclick="connect()">Connect to selected port</button>
+            </div>
+            <div class="col">
+                <button class="button-custom green" id="connect_auto" onclick="connectAuto()">Connect (auto)</button>
             </div>
 
             <div class="col">
@@ -43,6 +49,7 @@
             </div>
 
         </div>
+
 
 
         <!-- 
@@ -114,6 +121,17 @@
 
         <div class="tab-content" id="tab3">
             <h2>Available DTCs</h2>
+            <div class="row">
+                <div class="col">
+                    <button id="get_dtc" onclick="getDtcs('GET_DTC')" >Get DTCs</button>
+    
+                </div>
+                <div class="col">
+                    <button id="disconnect" onclick="clearDtcs('CLEAR_DTC')" >Clear DTCs</button>
+    
+                </div>
+                
+            </div>
             <div class="checkbox-list" id="dtcsList"></div>
         </div>
 

@@ -3,6 +3,7 @@ let  available_sensors
 async function getPorts() {
     const options = await eel.scan_ports()();
     const select = document.getElementById('ports');
+    select.innerHTML = ''
     options.forEach(option => {
         const optionElement = document.createElement('option');
         optionElement.value = option;
@@ -24,6 +25,18 @@ async function connect(){
     stopLoader()
 }
 
+
+async function connectAuto(){
+
+    startLoader()
+ 
+    await eel.connect_auto()();
+
+    isObdCOnnected()
+
+    stopLoader()
+}
+
 async function disconnect(){
     await eel.unwatch_all()();
     await eel.disconnect()();
@@ -34,10 +47,16 @@ async function disconnect(){
 
 async function getAvailableCommands() {
     available_sensors = await eel.get_available_commands()();
-    // eel.printami(available_sensors)
     // for(let i = 0; i< available_sensors.length; i++)
         // eel.printami(available_sensors[i].name +' - ' + available_sensors[i].decode+'\n')
     // eel.printami('\n')
+
+}
+
+async function createGetDTCAndCearDTCs(){
+    
+    // sensors = available_sensors.filter(cmd => cmd.name.includes('CLEAR_DTC') || cmd.decode.includes('GET_DTC'));
+
 
 }
 
@@ -304,3 +323,22 @@ function updateValuesFromRead(pid, val){
         displayElement.textContent = val;
     
 }
+
+async function getDtcs(pid){
+    eel.printami(pid)
+
+    await eel.watch_pid(pid)
+       
+}
+async function printa(a){
+    eel.printami(a)
+}
+
+
+async function clearDtcs(pid){
+    await eel.watch_pid(pid)
+    await readPid(pid)
+    val = await readPid(pid)
+    await unwatch(pid)
+    eel.printami(val)
+}   

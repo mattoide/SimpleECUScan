@@ -78,8 +78,16 @@ def connect(port):
     global obd_port
     global connection
     obd_port = port
-    connection = obd.OBD(port, fast=False, baudrate=9600)
-    # connection = obd.Async('/dev/ttyUSB0', fast=False)
+    # connection = obd.OBD()
+    connection = obd.Async(port)
+
+
+@eel.expose
+def connect_auto(port):
+    global connection
+    obd_port = port
+    # connection = obd.OBD()
+    connection = obd.Async()
    
 
 
