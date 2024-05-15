@@ -44,6 +44,8 @@ def log_to_console(message):
 def update_watch(response):
     global watch_values
     watch_values[response.command.name] = str(response.value)
+    eel.updateValues(watch_values)
+
 
 
 
@@ -85,7 +87,6 @@ def connect(port):
 @eel.expose
 def connect_auto():
     global connection
-    obd_port = port
     # connection = obd.OBD()
     connection = obd.Async()
    
@@ -125,6 +126,8 @@ def unwatch_pid(pid):
         connection.unwatch(obd.commands[pid])
         global watch_values
         del watch_values[pid]
+        eel.updateValues(watch_values)
+
  
     if was_running:
         connection.start()
@@ -136,6 +139,8 @@ def unwatch_all():
         connection.unwatch_all()
         global watch_values
         watch_values = {}
+        eel.updateValues(watch_values)
+
  
     if was_running:
         connection.start()

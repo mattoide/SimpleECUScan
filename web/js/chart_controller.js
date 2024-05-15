@@ -1,4 +1,4 @@
-const maxDataPoints = 50;
+const maxDataPoints = 10;
 
 var ctx = document.getElementById('lineChart').getContext('2d');
 
@@ -9,7 +9,8 @@ var lineChart = new Chart(ctx, {
         datasets: []
     },
     options: {
-        maintainAspectRatio: true, // Imposta su false per evitare il restringimento
+                maintainAspectRatio: false,
+                responsive: true,
 
         scales: {
             yAxes: [{
@@ -19,6 +20,7 @@ var lineChart = new Chart(ctx, {
             }],
 
         },
+
         animation: {
             duration: 0 // Disabilita l'animazione per evitare sfarfallii
         }

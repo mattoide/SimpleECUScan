@@ -15,12 +15,13 @@
 }
 
 .dot {
-        /* display: flex; */
+    /* display: flex; */
 
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: red; /* Verde di default */
+    background-color: red;
+    /* Verde di default */
     margin-right: 20px;
     text-align: center;
     align-items: center;
@@ -33,7 +34,7 @@
 }
 
 .col {
-margin-inline: 1vh;
+    margin-inline: 1vh;
 }
 
 select {
@@ -45,37 +46,58 @@ select {
 
 /* Stile per un bottone professionale */
 .button-custom {
-    color: black; /* Testo bianco */
-    border: none; /* Nessun bordo */
-    border-radius: 5px; /* Bordi leggermente arrotondati */
-    padding: 10px 20px; /* Spaziatura interna */
-    font-size: 16px; /* Dimensione del testo */
-    font-weight: bold; /* Testo in grassetto */
-    text-align: center; /* Allineamento del testo */
-    text-decoration: none; /* Nessuna sottolineatura */
-    display: inline-block; /* Visualizzazione inline */
-    transition: background-color 0.3s ease; /* Transizione per l'hover */
-    cursor: pointer; /* Cambio del cursore */
+    color: black;
+    /* Testo bianco */
+    border: none;
+    /* Nessun bordo */
+    border-radius: 5px;
+    /* Bordi leggermente arrotondati */
+    padding: 10px 20px;
+    /* Spaziatura interna */
+    font-size: 16px;
+    /* Dimensione del testo */
+    font-weight: bold;
+    /* Testo in grassetto */
+    text-align: center;
+    /* Allineamento del testo */
+    text-decoration: none;
+    /* Nessuna sottolineatura */
+    display: inline-block;
+    /* Visualizzazione inline */
+    transition: background-color 0.3s ease;
+    /* Transizione per l'hover */
+    cursor: pointer;
+    /* Cambio del cursore */
 }
 
 .button-custom:hover {
-    background-color: darkgreen; /* Colore più scuro al passaggio del mouse */
+    background-color: darkgreen;
+    /* Colore più scuro al passaggio del mouse */
 }
 
 /* Per aggiungere un'ombra */
 .button-custom:active {
-    box-shadow: 0 5px #666; /* Ombra quando il bottone è attivo */
-    transform: translateY(4px); /* Leggero spostamento in basso */
+    box-shadow: 0 5px #666;
+    /* Ombra quando il bottone è attivo */
+    transform: translateY(4px);
+    /* Leggero spostamento in basso */
 }
 
 .button-custom:disabled {
-    background-color: #cccccc; /* Colore grigio per lo stato disabilitato */
-    color: #666666; /* Testo grigio scuro per lo stato disabilitato */
-    cursor: not-allowed; /* Cambio del cursore */
-    box-shadow: none; /* Rimuove l'ombra */
-    transform: none; /* Rimuove lo spostamento */
-    pointer-events: none; /* Disabilita tutti gli eventi */
-    transition: none; /* Disabilita la transizione */
+    background-color: #cccccc;
+    /* Colore grigio per lo stato disabilitato */
+    color: #666666;
+    /* Testo grigio scuro per lo stato disabilitato */
+    cursor: not-allowed;
+    /* Cambio del cursore */
+    box-shadow: none;
+    /* Rimuove l'ombra */
+    transform: none;
+    /* Rimuove lo spostamento */
+    pointer-events: none;
+    /* Disabilita tutti gli eventi */
+    transition: none;
+    /* Disabilita la transizione */
 }
 
 /* Nascondi il loader per impostazione predefinita */
@@ -113,7 +135,8 @@ select {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.8); /* Sfondo semi-trasparente */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Sfondo semi-trasparente */
     display: none;
     justify-content: center;
     align-items: center;
@@ -125,19 +148,25 @@ select {
     width: 50px;
     height: 50px;
     border: 6px solid #ccc;
-    border-top: 6px solid #3498db; /* Colore del loader */
+    border-top: 6px solid #3498db;
+    /* Colore del loader */
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .checkbox-list {
-    max-height: 300px; 
-    overflow-y: auto; 
+    max-height: 300px;
+    overflow-y: auto;
     border: 1px solid #ccc;
     text-align: left;
     justify-content: left;
@@ -161,8 +190,10 @@ select {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     text-align: left;
 }
+
 .terminal-output {
-    white-space: pre-wrap; /* Preserva gli spazi e le interruzioni di riga */
+    white-space: pre-wrap;
+    /* Preserva gli spazi e le interruzioni di riga */
     line-height: 1.5;
 }
 
@@ -188,74 +219,123 @@ select {
     list-style-type: none;
     padding: 0;
     text-align: left;
-    
+
 }
 
 .key-col {
-    background-color: #e0e0e0; /* Colore di sfondo tenue */
-    color: #333; /* Colore del testo scuro ma non troppo forte */
-    padding: 5px 15px; /* Padding per dare spazio all'interno della label */
-    border-radius: 5px; /* Bordi arrotondati per un aspetto più morbido */
-    font-weight: bold; /* Testo in grassetto */
-    font-size: 14px; /* Dimensione del font moderata */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Leggera ombra per dare profondità */
-    border: 1px solid #ccc; /* Bordo sottile per delineare la label */
-    width: 300px; /* Larghezza fissa per allineare le colonne */
-    flex-shrink: 0; /* Impedisce alla colonna di restringersi */
+    background-color: #e0e0e0;
+    /* Colore di sfondo tenue */
+    color: #333;
+    /* Colore del testo scuro ma non troppo forte */
+    padding: 5px 15px;
+    /* Padding per dare spazio all'interno della label */
+    border-radius: 5px;
+    /* Bordi arrotondati per un aspetto più morbido */
+    font-weight: bold;
+    /* Testo in grassetto */
+    font-size: 14px;
+    /* Dimensione del font moderata */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Leggera ombra per dare profondità */
+    border: 1px solid #ccc;
+    /* Bordo sottile per delineare la label */
+    width: 300px;
+    /* Larghezza fissa per allineare le colonne */
+    flex-shrink: 0;
+    /* Impedisce alla colonna di restringersi */
     margin-right: 10px;
 }
 
 .val-col {
-    color: green; /* Colore del testo leggermente più chiaro */
-    font-size: 14px; /* Dimensione del font moderata */
-    padding: 5px 0; /* Padding verticale per dare spazio */
-    flex-grow: 1; /* Consente al valore di occupare tutto lo spazio rimanente */
-    background-color: #e0e0e0; /* Colore di sfondo tenue */
-    border-radius: 5px; /* Bordi arrotondati per un aspetto più morbido */
-    font-weight: bold; /* Testo in grassetto */
-    font-size: 14px; /* Dimensione del font moderata */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Leggera ombra per dare profondità */
-    border: 1px solid #ccc; /* Bordo sottile per delineare la label */
+    color: green;
+    /* Colore del testo leggermente più chiaro */
+    font-size: 14px;
+    /* Dimensione del font moderata */
+    padding: 5px 0;
+    /* Padding verticale per dare spazio */
+    flex-grow: 1;
+    /* Consente al valore di occupare tutto lo spazio rimanente */
+    background-color: #e0e0e0;
+    /* Colore di sfondo tenue */
+    border-radius: 5px;
+    /* Bordi arrotondati per un aspetto più morbido */
+    font-weight: bold;
+    /* Testo in grassetto */
+    font-size: 14px;
+    /* Dimensione del font moderata */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Leggera ombra per dare profondità */
+    border: 1px solid #ccc;
+    /* Bordo sottile per delineare la label */
 }
 
 .unit-col {
-    background-color: #e0e0e0; /* Colore di sfondo tenue */
-    color: #333; /* Colore del testo scuro ma non troppo forte */
-    padding: 5px 15px; /* Padding per dare spazio all'interno della label */
-    border-radius: 5px; /* Bordi arrotondati per un aspetto più morbido */
-    font-weight: bold; /* Testo in grassetto */
-    font-size: 14px; /* Dimensione del font moderata */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Leggera ombra per dare profondità */
-    border: 1px solid #ccc; /* Bordo sottile per delineare la label */
-    width: auto; /* Larghezza fissa per allineare le colonne */
-    flex-shrink: 0; /* Impedisce alla colonna di restringersi */
+    background-color: #e0e0e0;
+    /* Colore di sfondo tenue */
+    color: #333;
+    /* Colore del testo scuro ma non troppo forte */
+    padding: 5px 15px;
+    /* Padding per dare spazio all'interno della label */
+    border-radius: 5px;
+    /* Bordi arrotondati per un aspetto più morbido */
+    font-weight: bold;
+    /* Testo in grassetto */
+    font-size: 14px;
+    /* Dimensione del font moderata */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Leggera ombra per dare profondità */
+    border: 1px solid #ccc;
+    /* Bordo sottile per delineare la label */
+    width: auto;
+    /* Larghezza fissa per allineare le colonne */
+    flex-shrink: 0;
+    /* Impedisce alla colonna di restringersi */
     margin-right: 10px;
 }
 
 .key-col-button {
-    color: #333; /* Colore del testo scuro ma non troppo forte */
-    padding: 5px 15px; /* Padding per dare spazio all'interno della label */
-    border-radius: 5px; /* Bordi arrotondati per un aspetto più morbido */
-    font-weight: bold; /* Testo in grassetto */
-    font-size: 14px; /* Dimensione del font moderata */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Leggera ombra per dare profondità */
-    border: 1px solid #ccc; /* Bordo sottile per delineare la label */
-    width: 300px; /* Larghezza fissa per allineare le colonne */
-    flex-shrink: 0; /* Impedisce alla colonna di restringersi */
+    color: #333;
+    /* Colore del testo scuro ma non troppo forte */
+    padding: 5px 15px;
+    /* Padding per dare spazio all'interno della label */
+    border-radius: 5px;
+    /* Bordi arrotondati per un aspetto più morbido */
+    font-weight: bold;
+    /* Testo in grassetto */
+    font-size: 14px;
+    /* Dimensione del font moderata */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Leggera ombra per dare profondità */
+    border: 1px solid #ccc;
+    /* Bordo sottile per delineare la label */
+    width: 300px;
+    /* Larghezza fissa per allineare le colonne */
+    flex-shrink: 0;
+    /* Impedisce alla colonna di restringersi */
     margin-right: 10px;
 }
 
 .val-col-button {
-    color: green; /* Colore del testo leggermente più chiaro */
-    font-size: 14px; /* Dimensione del font moderata */
-    padding: 5px 0; /* Padding verticale per dare spazio */
-    flex-grow: 1; /* Consente al valore di occupare tutto lo spazio rimanente */
-    background-color: #e0e0e0; /* Colore di sfondo tenue */
-    border-radius: 5px; /* Bordi arrotondati per un aspetto più morbido */
-    font-weight: bold; /* Testo in grassetto */
-    font-size: 14px; /* Dimensione del font moderata */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Leggera ombra per dare profondità */
-    border: 1px solid #ccc; /* Bordo sottile per delineare la label */
+    color: green;
+    /* Colore del testo leggermente più chiaro */
+    font-size: 14px;
+    /* Dimensione del font moderata */
+    padding: 5px 0;
+    /* Padding verticale per dare spazio */
+    flex-grow: 1;
+    /* Consente al valore di occupare tutto lo spazio rimanente */
+    background-color: #e0e0e0;
+    /* Colore di sfondo tenue */
+    border-radius: 5px;
+    /* Bordi arrotondati per un aspetto più morbido */
+    font-weight: bold;
+    /* Testo in grassetto */
+    font-size: 14px;
+    /* Dimensione del font moderata */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Leggera ombra per dare profondità */
+    border: 1px solid #ccc;
+    /* Bordo sottile per delineare la label */
 }
 
 
@@ -285,7 +365,7 @@ select {
 /* Stili per il contenuto dei tab */
 .tab-content {
     border: 1px solid #ccc;
-    padding: 20px;
+    padding: 5px;
     display: none;
 }
 
@@ -293,12 +373,29 @@ select {
     display: block;
 }
 
-.canvas-chart-container{
-    overflow-x: scroll; /* Abilita lo scorrimento orizzontale */
-    overflow-y: hidden; /* Disabilita lo scorrimento verticale */
+.chart-container {
+    width: 100%;
+    display: flex;
 }
 
-.canvas-chart{
 
+.large-column {
+    width: 100%;
+    overflow-x: scroll;
 }
 
+.container-la {
+    /* width: calc(1000px - 40px); */
+    width: 100%;
+    height: 500px;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+.container-chart{
+    width: 97vw;
+    height: 75vh;
+}

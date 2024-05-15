@@ -44,7 +44,7 @@ async function disconnect() {
     await eel.unwatch_all()();
     await eel.disconnect()();
     available_sensors = []
-    clearInterval(intervalId)
+    // clearInterval(intervalId)
     setUiIfDisconnected()
 }
 
@@ -92,7 +92,7 @@ async function createSensorsList() {
             } else {
                 unwatch(sensors[i].name)
             }
-            updateValues()
+            // updateValues()
         })
 
         sensorsList.appendChild(checkboxItem);

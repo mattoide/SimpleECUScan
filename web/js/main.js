@@ -1,6 +1,5 @@
 
 let intervalId;
-let intervalIdDebugMessages;
 
 let last_debug_message = '';
 
@@ -19,14 +18,18 @@ const terminalOutput = document.getElementById('terminal-output');
 const terminal = document.getElementById('terminal');
 
 
-async function updateValues() {
+// async function updateValues() {
 
-    clearInterval(intervalId);
+//     clearInterval(intervalId);
 
-    intervalId = setInterval(() => {
-        eel.get_watch_values()(updateWatchValues)
-    }, 100);
+//     intervalId = setInterval(() => {
+//         eel.get_watch_values()(updateWatchValues)
+//     }, 100);
 
+// }
+
+function updateValues(values) {
+    updateWatchValues(values)
 }
 
 function updateWatchValues(values) {
@@ -134,4 +137,5 @@ function log_odb_debug_to_console(messaggio) {
 }
 
 eel.expose(log_odb_debug_to_console);
+eel.expose(updateValues);
 
