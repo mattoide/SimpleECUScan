@@ -59,7 +59,7 @@ select {
 }
 
 .button-custom:hover {
-    background-color: darkgray; /* Colore più scuro al passaggio del mouse */
+    background-color: darkgreen; /* Colore più scuro al passaggio del mouse */
 }
 
 /* Per aggiungere un'ombra */
@@ -292,3 +292,13 @@ select {
 .tab-content.active {
     display: block;
 }
+
+.canvas-chart-container{
+    overflow-x: scroll; /* Abilita lo scorrimento orizzontale */
+    overflow-y: hidden; /* Disabilita lo scorrimento verticale */
+}
+
+.canvas-chart{
+
+}
+

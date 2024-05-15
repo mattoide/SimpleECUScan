@@ -1,4 +1,7 @@
-let  available_sensors
+let available_sensors = []
+let pids = [];
+let dtcs = []
+let statuses = []
 
 async function getPorts() {
     const options = await eel.scan_ports()();
@@ -12,7 +15,7 @@ async function getPorts() {
     });
 }
 
-async function connect(){
+async function connect() {
 
     startLoader()
 
@@ -26,10 +29,10 @@ async function connect(){
 }
 
 
-async function connectAuto(){
+async function connectAuto() {
 
     startLoader()
- 
+
     await eel.connect_auto()();
 
     isObdCOnnected()
@@ -37,7 +40,7 @@ async function connectAuto(){
     stopLoader()
 }
 
-async function disconnect(){
+async function disconnect() {
     await eel.unwatch_all()();
     await eel.disconnect()();
     available_sensors = []
@@ -47,27 +50,25 @@ async function disconnect(){
 
 async function getAvailableCommands() {
     available_sensors = await eel.get_available_commands()();
-    // for(let i = 0; i< available_sensors.length; i++)
-        // eel.printami(available_sensors[i].name +' - ' + available_sensors[i].decode+'\n')
-    // eel.printami('\n')
+
+    sensors = available_sensors.filter(cmd => !cmd.decode.includes('drop') && !cmd.decode.includes('pid') && !cmd.decode.includes('dtc') && !cmd.name.split('_')[0].includes('DTC') && !cmd.decode.includes('status') && !cmd.decode.includes('type'));
+    pids = available_sensors.filter(cmd => cmd.decode.includes('pid'));
+    dtcs = available_sensors.filter(cmd => cmd.decode.includes('dtc') || cmd.name.split('_')[0].includes('DTC'));
+    statuses = available_sensors.filter(cmd => cmd.decode.includes('status') || cmd.decode.includes('type'))
 
 }
 
-async function createGetDTCAndCearDTCs(){
-    
+async function createGetDTCAndCearDTCs() {
+
     // sensors = available_sensors.filter(cmd => cmd.name.includes('CLEAR_DTC') || cmd.decode.includes('GET_DTC'));
 
 
 }
 
-async function createSensorsList(){
+async function createSensorsList() {
     const sensorsList = document.getElementById('sensorsList');
 
-
     //SENSORI SENZA DTC E PID
-    sensors = available_sensors.filter(cmd => !cmd.decode.includes('drop') && !cmd.decode.includes('pid') && !cmd.decode.includes('dtc') && !cmd.name.split('_')[0].includes('DTC'));
-
-
     let numberOfSensors = sensors.length
 
     // Crea e aggiungi le checkbox alla lista
@@ -79,13 +80,13 @@ async function createSensorsList(){
 
         const label = document.createElement('label');
         label.htmlFor = sensors[i].name;
-        label.textContent = sensors[i].desc;
+        label.textContent = sensors[i].desc + ' --- ' + sensors[i].decode;
 
         const checkboxItem = document.createElement('div');
         checkboxItem.className = 'checkbox-item';
         checkboxItem.appendChild(checkbox);
         checkboxItem.appendChild(label);
-        checkbox.addEventListener('change', function() {
+        checkbox.addEventListener('change', function () {
             if (this.checked) {
                 watch(sensors[i].name)
             } else {
@@ -98,14 +99,10 @@ async function createSensorsList(){
     }
 }
 
-async function createDTCsList(){
+async function createDTCsList() {
     const dtcsList = document.getElementById('dtcsList');
-    //DTCS
-    //todo: check dtcs
-    dtcs = available_sensors.filter(cmd => cmd.decode.includes('dtc') || cmd.name.split('_')[0].includes('DTC'));
 
     let numberOfDtcs = dtcs.length
-
 
     for (let i = 0; i < numberOfDtcs; i++) {
         const listItem = document.createElement('li');
@@ -115,7 +112,7 @@ async function createDTCsList(){
 
         const row = document.createElement('div');
         row.classList.add('row');
-    
+
         const colKey = document.createElement('div');
         colKey.classList.add('col', 'key-col-button');
         const btn = document.createElement('button');
@@ -129,68 +126,29 @@ async function createDTCsList(){
 
         colVal.id = `value-${dtcs[i].name}`;
 
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
 
             watchStaticsPids(dtcs[i].name);
-                
-            });
+
+        });
 
 
-        colKey.appendChild(btn) 
+        colKey.appendChild(btn)
 
         row.appendChild(colKey);
         row.appendChild(colVal);
 
 
-
-
-        /*
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = dtcs[i].name;
-        checkbox.value = dtcs[i].name;
-    
-        const label = document.createElement('label');
-        label.htmlFor = dtcs[i].name;
-        label.textContent = dtcs[i].desc;
-    
-        const valueDisplay = document.createElement('p');
-        valueDisplay.id = `value-${dtcs[i].name}`;
-
-        valueDisplay.textContent = ''; // Inizialmente vuoto
-    
-        const checkboxItem = document.createElement('div');
-        checkboxItem.className = 'checkbox-item';
-        checkboxItem.appendChild(checkbox);
-        checkboxItem.appendChild(label);
-        checkboxItem.appendChild(valueDisplay);
-    
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                readPid(dtcs[i].name);
-            } else {
-                unwatch(dtcs[i].name);
-            }
-            // updateValuesFromRead(dtcs[i].name)
-        });
-
-        */
-    
         dtcsList.appendChild(row);
         // readPid(dtcs[i].name);
-        }
+    }
 }
 
-async function createPidsList(){
+async function createPidsList() {
     const pidsList = document.getElementById('pidsList');
-    //PIDS
-    pids = available_sensors.filter(cmd => cmd.decode.includes('pid'));
 
     let numberOfPids = pids.length
 
-
-    // Crea e aggiungi le checkbox alla lista
     for (let i = 0; i < numberOfPids; i++) {
 
         const listItem = document.createElement('li');
@@ -200,7 +158,7 @@ async function createPidsList(){
 
         const row = document.createElement('div');
         row.classList.add('row');
-    
+
         const colKey = document.createElement('div');
         colKey.classList.add('col', 'key-col-button');
         const btn = document.createElement('button');
@@ -214,53 +172,70 @@ async function createPidsList(){
 
         colVal.id = `value-${pids[i].name}`;
 
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             watchStaticsPids(pids[i].name);
-                    });
+        });
 
 
-        colKey.appendChild(btn) 
+        colKey.appendChild(btn)
 
         row.appendChild(colKey);
         row.appendChild(colVal);
 
-        
-
-        /*
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = pids[i].name;
-        checkbox.value = pids[i].name;
-
-        const label = document.createElement('label');
-        label.htmlFor = pids[i].name;
-        label.textContent = pids[i].desc;
-
-        const checkboxItem = document.createElement('div');
-        checkboxItem.className = 'checkbox-item';
-        checkboxItem.appendChild(checkbox);
-        checkboxItem.appendChild(label);
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                watch(pids[i].name)
-            } else {
-                unwatch(pids[i].name)
-            }
-            updateValues()
-        })
-*/
         pidsList.appendChild(row);
         // readPid(pids[i].name);
+    }
+}
 
+async function createStatusesList() {
+    const statusesList = document.getElementById('statusesList');
+
+    let numberOfStatuses = statuses.length
+
+    for (let i = 0; i < numberOfStatuses; i++) {
+
+        const listItem = document.createElement('li');
+
+        listItem.classList.add('lista-chiave-valore');
+
+
+        const row = document.createElement('div');
+        row.classList.add('row');
+
+        const colKey = document.createElement('div');
+        colKey.classList.add('col', 'key-col-button');
+        const btn = document.createElement('button');
+        btn.id = statuses[i].name;
+        btn.value = statuses[i].name;
+        btn.textContent = statuses[i].desc;
+
+
+        const colVal = document.createElement('div');
+        colVal.classList.add('col', 'val-col-button');
+
+        colVal.id = `value-${statuses[i].name}`;
+
+        btn.addEventListener('click', function () {
+            watchStaticsPids(statuses[i].name);
+        });
+
+
+        colKey.appendChild(btn)
+
+        row.appendChild(colKey);
+        row.appendChild(colVal);
+
+        statusesList.appendChild(row);
+        // readPid(pids[i].name);
     }
 }
 
 
-async function watch(pid){
+async function watch(pid) {
     await eel.watch_pid(pid)
 }
 
-async function watchStaticsPids(pid){
+async function watchStaticsPids(pid) {
     await eel.watch_pid(pid)
     await readPid(pid)
     await readPid(pid)
@@ -269,76 +244,52 @@ async function watchStaticsPids(pid){
 }
 
 
-async function unwatch(pid){
-    
+
+async function unwatch(pid) {
+
     await eel.unwatch_pid(pid)
 
-    for (let i = 0; i < lineChart.data.labels.length; i++) {
-
-        //TODO: perche non leva label??
-        eel.printami('label prima')
-        eel.printami(lineChart.data.labels)
-
-            lineChart.data.labels = lineChart.data.labels.filter(label => label == pid)
-
-            eel.printami('label dopo')
-            eel.printami(lineChart.data.labels)
-
-            
-            lineChart.data.datasets.forEach(dataset => {
-                if (dataset.label == pid) {
-                    dataset.data.shift();
-                }
-            });
-
-            lineChart.update();
-    }
-
+    // lineChart.data.labels = lineChart.data.labels.filter(label => label != pid)
+    lineChart.data.datasets = lineChart.data.datasets.filter(dataset => dataset.label.split("(")[0] != pid)
     lineChart.update();
 }
 
-async function unwatchAll(){
+async function unwatchAll() {
 
     await eel.unwatch_all()
+    resetChart();
 
     var inputs = document.getElementsByTagName("input");
 
-    for(var i = 0; i < inputs.length; i++) {
-        if(inputs[i].type == "checkbox") {
-            inputs[i].checked = false; 
-        }  
+    for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].type == "checkbox") {
+            inputs[i].checked = false;
+        }
     }
 
 }
 
-async function readPid(pid){
+async function readPid(pid) {
     val = await eel.read_pid(pid)()
     updateValuesFromRead(pid, val)
 }
 
-function updateValuesFromRead(pid, val){
+function updateValuesFromRead(pid, val) {
 
     const displayElement = document.getElementById(`value-${pid}`);
-    if(displayElement)
+    if (displayElement)
         displayElement.textContent = val;
-    
+
 }
 
-async function getDtcs(pid){
-    eel.printami(pid)
+async function getDtcs(pid) {
+    // await eel.watch_pid(pid)
 
-    await eel.watch_pid(pid)
-       
-}
-async function printa(a){
-    eel.printami(a)
 }
 
 
-async function clearDtcs(pid){
+async function clearDtcs(pid) {
     await eel.watch_pid(pid)
     await readPid(pid)
-    val = await readPid(pid)
     await unwatch(pid)
-    eel.printami(val)
 }   

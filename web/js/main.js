@@ -5,11 +5,13 @@ let intervalIdDebugMessages;
 let last_debug_message = '';
 
 const connect_button = document.getElementById('connect');
+const connect_auto_button = document.getElementById('connect_auto');
 const disconnect_button = document.getElementById('disconnect');
-unwatch_all_button = document.getElementById('unwatch_all');
+const unwatch_all_button = document.getElementById('unwatch_all');
 
 const dtcsList = document.getElementById('dtcsList');
 const sensorsList = document.getElementById('sensorsList');
+const statusesList = document.getElementById('statusesList');
 const pidsList = document.getElementById('pidsList');
 const watchList = document.getElementById('watchValues');
 const dot = document.getElementById('dot');
@@ -63,7 +65,7 @@ function updateWatchValues(values) {
     
         watchList.appendChild(listItem);
     
-        updateChart(key, value.split(" ")[0]);
+        updateChart(key, value.split(" ")[0], value.split(" ")[1]);
     }
 }
 
@@ -78,14 +80,17 @@ function stopLoader() {
 
 function setUiIfDisconnected() {
     document.getElementById("connected").textContent = 'Not connected';
-    dot.classList.toggle('green');
+    dot.classList.remove('green');
+    dot.classList.add('red');
 
     disconnect_button.disabled = true
     unwatch_all_button.disabled = true
     connect_button.disabled = false
+    connect_auto_button.disabled = false
 
     sensorsList.innerHTML = ''
     dtcsList.innerHTML = ''
+    statusesList.innerHTML = ''
     pidsList.innerHTML = ''
     watchList.innerHTML = ''
 
@@ -95,16 +100,20 @@ function setUiIfDisconnected() {
 async function setUiIfConnected() {
 
     document.getElementById("connected").textContent = 'Connected';
-    dot.classList.toggle('green');
+    dot.classList.remove('green');
+    dot.classList.add('green');
 
     disconnect_button.disabled = false
     unwatch_all_button.disabled = false
     connect_button.disabled = true
+    connect_auto_button.disabled = true
+
 
     await getAvailableCommands()
     await createSensorsList()
     await createDTCsList()
     await createPidsList()
+    await createStatusesList()
 }
 
 async function isObdCOnnected() {

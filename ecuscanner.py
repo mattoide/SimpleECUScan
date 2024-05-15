@@ -62,7 +62,7 @@ def get_connection():
 def get_available_commands():
     global supported_commands
     global supported_commands_names
-
+    supported_commands_names = []
     supported_commands = list(connection.supported_commands)
 
     for cmd in supported_commands:
@@ -83,7 +83,7 @@ def connect(port):
 
 
 @eel.expose
-def connect_auto(port):
+def connect_auto():
     global connection
     obd_port = port
     # connection = obd.OBD()

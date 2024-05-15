@@ -95,8 +95,9 @@
         <div class="tabs">
             <div class="tab active" data-tab="tab1">Sensors</div>
             <div class="tab" data-tab="tab2">Graph</div>
-            <div class="tab" data-tab="tab3">DTCs</div>
-            <div class="tab" data-tab="tab4">PIDs</div>
+            <div class="tab" data-tab="tab3">Stauses</div>
+            <div class="tab" data-tab="tab4">DTCs</div>
+            <div class="tab" data-tab="tab5">PIDs</div>
         </div>
 
         <div class="tab-content active" id="tab1">
@@ -113,13 +114,18 @@
             </div>
         </div>
 
-        <div class="tab-content" id="tab2">
+        <div class="tab-content canvas-chart-container" id="tab2">
             <h2>Graph</h2>
-            <canvas id="lineChart"></canvas>
+            <canvas class="canvas-chart" id="lineChart"></canvas>
+        </div>
+
+        <div class="tab-content" id="tab3">
+            <h2>Statuses</h2>
+            <div class="checkbox-list" id="statusesList"></div>
         </div>
 
 
-        <div class="tab-content" id="tab3">
+        <div class="tab-content" id="tab4">
             <h2>Available DTCs</h2>
             <div class="row">
                 <div class="col">
@@ -135,7 +141,7 @@
             <div class="checkbox-list" id="dtcsList"></div>
         </div>
 
-        <div class="tab-content" id="tab4">
+        <div class="tab-content" id="tab5">
             <h2>Available PIDs</h2>
             <div class="checkbox-list" id="pidsList"></div>
         </div>
