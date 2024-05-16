@@ -1,0 +1,59 @@
+/* Stile per un bottone in stile Windows */
+.button-custom {
+    color: black;
+    /* Testo nero */
+    background-color: #f0f0f0;
+    /* Colore di sfondo grigio chiaro */
+    border: 1px solid #ccc;
+    /* Bordo grigio */
+    border-radius: 2px;
+    /* Bordi leggermente arrotondati */
+    padding: 10px 20px;
+    /* Spaziatura interna */
+    font-size: 14px;
+    /* Dimensione del testo */
+    font-weight: normal;
+    /* Testo normale */
+    text-align: center;
+    /* Allineamento del testo */
+    text-decoration: none;
+    /* Nessuna sottolineatura */
+    display: inline-block;
+    /* Visualizzazione inline */
+    transition: background-color 0.3s ease, box-shadow 0.1s ease;
+    /* Transizione per l'hover */
+    cursor: pointer;
+    /* Cambio del cursore */
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    /* Leggera ombra */
+}
+
+.button-custom:hover {
+    /* Colore di sfondo più scuro al passaggio del mouse */
+    border-color: #bbb;
+}
+
+.button-custom:active {
+    background-color: #d0d0d0;
+    /* Colore di sfondo più scuro quando attivo */
+    border-color: #aaa;
+    /* Bordo più scuro quando attivo */
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+    /* Effetto di pressione */
+    transform: translateY(1px);
+    /* Leggero spostamento in basso */
+}
+
+.button-custom:disabled {
+    background-color: #f0f0f0;
+    /* Colore di sfondo grigio chiaro */
+    color: #a0a0a0;
+    /* Testo grigio chiaro */
+    border-color: #d0d0d0;
+    /* Bordo grigio chiaro */
+    cursor: not-allowed;
+    /* Cambio del cursore */
+    box-shadow: none;
+    /* Rimuove l'ombra */
+    transform: none;
+}

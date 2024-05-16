@@ -3,7 +3,11 @@ let pids = [];
 let dtcs = []
 let statuses = []
 
+const dtcsContainer = document.getElementById('dtcsContainer');
+
+
 async function getPorts() {
+    startLoader()
     const options = await eel.scan_ports()();
     const select = document.getElementById('ports');
     select.innerHTML = ''
@@ -13,6 +17,8 @@ async function getPorts() {
         optionElement.textContent = option;
         select.appendChild(optionElement);
     });
+
+    stopLoader()
 }
 
 async function connect() {
@@ -54,7 +60,8 @@ async function getAvailableCommands() {
     sensors = available_sensors.filter(cmd => !cmd.decode.includes('drop') && !cmd.decode.includes('pid') && !cmd.decode.includes('dtc') && !cmd.name.split('_')[0].includes('DTC') && !cmd.decode.includes('status') && !cmd.decode.includes('type'));
     pids = available_sensors.filter(cmd => cmd.decode.includes('pid'));
     dtcs = available_sensors.filter(cmd => cmd.decode.includes('dtc') || cmd.name.split('_')[0].includes('DTC'));
-    statuses = available_sensors.filter(cmd => cmd.decode.includes('status') || cmd.decode.includes('type'))
+    statuses = available_sensors.filter(cmd => (cmd.decode.includes('status') || cmd.decode.includes('type')) && (!cmd.name.includes('DTC') && !cmd.name.includes('DTCs')))
+
 
 }
 
@@ -103,6 +110,9 @@ async function createDTCsList() {
     const dtcsList = document.getElementById('dtcsList');
 
     let numberOfDtcs = dtcs.length
+    if (numberOfDtcs > 0) {
+        dtcsList.classList.toggle('border')
+    }
 
     for (let i = 0; i < numberOfDtcs; i++) {
         const listItem = document.createElement('li');
@@ -114,7 +124,7 @@ async function createDTCsList() {
         row.classList.add('row');
 
         const colKey = document.createElement('div');
-        colKey.classList.add('col', 'key-col-button');
+        colKey.classList.add('col', 'key-col-static');
         const btn = document.createElement('button');
         btn.id = dtcs[i].name;
         btn.value = dtcs[i].name;
@@ -122,7 +132,7 @@ async function createDTCsList() {
 
 
         const colVal = document.createElement('div');
-        colVal.classList.add('col', 'val-col-button');
+        colVal.classList.add('col', 'val-col-static');
 
         colVal.id = `value-${dtcs[i].name}`;
 
@@ -160,7 +170,7 @@ async function createPidsList() {
         row.classList.add('row');
 
         const colKey = document.createElement('div');
-        colKey.classList.add('col', 'key-col-button');
+        colKey.classList.add('col', 'key-col-static');
         const btn = document.createElement('button');
         btn.id = pids[i].name;
         btn.value = pids[i].name;
@@ -168,7 +178,7 @@ async function createPidsList() {
 
 
         const colVal = document.createElement('div');
-        colVal.classList.add('col', 'val-col-button');
+        colVal.classList.add('col', 'val-col-static');
 
         colVal.id = `value-${pids[i].name}`;
 
@@ -203,7 +213,7 @@ async function createStatusesList() {
         row.classList.add('row');
 
         const colKey = document.createElement('div');
-        colKey.classList.add('col', 'key-col-button');
+        colKey.classList.add('col', 'key-col-static');
         const btn = document.createElement('button');
         btn.id = statuses[i].name;
         btn.value = statuses[i].name;
@@ -211,7 +221,7 @@ async function createStatusesList() {
 
 
         const colVal = document.createElement('div');
-        colVal.classList.add('col', 'val-col-button');
+        colVal.classList.add('col', 'val-col-static');
 
         colVal.id = `value-${statuses[i].name}`;
 
@@ -237,7 +247,6 @@ async function watch(pid) {
 
 async function watchStaticsPids(pid) {
     await eel.watch_pid(pid)
-    await readPid(pid)
     await readPid(pid)
     await unwatch(pid)
 
@@ -282,14 +291,43 @@ function updateValuesFromRead(pid, val) {
 
 }
 
-async function getDtcs(pid) {
-    // await eel.watch_pid(pid)
+async function getDtcs(pid = 'GET_DTC') {
+    await eel.watch_pid(pid)
+    val = await eel.get_dtcs(pid)()
+    await unwatch(pid)
+    populateList(JSON.parse(val))
+
 
 }
 
 
 async function clearDtcs(pid) {
     await eel.watch_pid(pid)
-    await readPid(pid)
+    val = await eel.read_pid(pid)()
     await unwatch(pid)
-}   
+    getDtcs()
+}
+
+function populateList(items) {
+
+    if (items.length > 0) {
+
+        const ul = document.createElement('ul');
+
+        items.forEach(item => {
+            const li = document.createElement('li');
+            const code = item[0];
+            const description = item[1] ? ` - ${item[1]}` : '';
+            li.textContent = code + description;
+            ul.appendChild(li);
+        });
+
+        dtcsContainer.innerHTML = '';
+        dtcsContainer.classList.add('border');
+        dtcsContainer.appendChild(ul);
+    } else {
+        dtcsContainer.textContent = 'No DTCs founds'
+    }
+
+
+}

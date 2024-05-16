@@ -1,3 +1,5 @@
+@import "buttons.css";
+
 .container {
     position: relative;
     background-color: #f0f0f0;
@@ -44,61 +46,7 @@ select {
     border-radius: 5px;
 }
 
-/* Stile per un bottone professionale */
-.button-custom {
-    color: black;
-    /* Testo bianco */
-    border: none;
-    /* Nessun bordo */
-    border-radius: 5px;
-    /* Bordi leggermente arrotondati */
-    padding: 10px 20px;
-    /* Spaziatura interna */
-    font-size: 16px;
-    /* Dimensione del testo */
-    font-weight: bold;
-    /* Testo in grassetto */
-    text-align: center;
-    /* Allineamento del testo */
-    text-decoration: none;
-    /* Nessuna sottolineatura */
-    display: inline-block;
-    /* Visualizzazione inline */
-    transition: background-color 0.3s ease;
-    /* Transizione per l'hover */
-    cursor: pointer;
-    /* Cambio del cursore */
-}
 
-.button-custom:hover {
-    background-color: darkgreen;
-    /* Colore più scuro al passaggio del mouse */
-}
-
-/* Per aggiungere un'ombra */
-.button-custom:active {
-    box-shadow: 0 5px #666;
-    /* Ombra quando il bottone è attivo */
-    transform: translateY(4px);
-    /* Leggero spostamento in basso */
-}
-
-.button-custom:disabled {
-    background-color: #cccccc;
-    /* Colore grigio per lo stato disabilitato */
-    color: #666666;
-    /* Testo grigio scuro per lo stato disabilitato */
-    cursor: not-allowed;
-    /* Cambio del cursore */
-    box-shadow: none;
-    /* Rimuove l'ombra */
-    transform: none;
-    /* Rimuove lo spostamento */
-    pointer-events: none;
-    /* Disabilita tutti gli eventi */
-    transition: none;
-    /* Disabilita la transizione */
-}
 
 /* Nascondi il loader per impostazione predefinita */
 .hidden {
@@ -113,7 +61,6 @@ select {
     font-size: 24px;
 }
 
-/* Stile per il pallino rosso */
 .green {
     background-color: green;
 }
@@ -167,9 +114,10 @@ select {
 .checkbox-list {
     max-height: 300px;
     overflow-y: auto;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     text-align: left;
     justify-content: left;
+    padding: 1%;
 }
 
 /* Stile per ciascun elemento della lista */
@@ -246,6 +194,27 @@ select {
     margin-right: 10px;
 }
 
+.key-col-static {
+
+    color: #333;
+    /* Colore del testo scuro ma non troppo forte */
+    padding: 5px 15px;
+    /* Padding per dare spazio all'interno della label */
+    /* border-radius: 5px; */
+    /* Bordi arrotondati per un aspetto più morbido */
+    font-weight: bold;
+    /* Testo in grassetto */
+    font-size: 14px;
+
+    width: 300px;
+    /* Larghezza fissa per allineare le colonne */
+    flex-shrink: 0;
+    /* Impedisce alla colonna di restringersi */
+    margin-right: 10px;
+
+    /* border-bottom: 1px solid #ccc; */
+}
+
 .val-col {
     color: green;
     /* Colore del testo leggermente più chiaro */
@@ -267,6 +236,25 @@ select {
     /* Leggera ombra per dare profondità */
     border: 1px solid #ccc;
     /* Bordo sottile per delineare la label */
+}
+
+.val-col-static {
+    color: green;
+    /* Colore del testo leggermente più chiaro */
+    font-size: 14px;
+    /* Dimensione del font moderata */
+    padding: 5px 0;
+    /* Padding verticale per dare spazio */
+    flex-grow: 1;
+    /* Consente al valore di occupare tutto lo spazio rimanente */
+
+    font-weight: bold;
+    /* Testo in grassetto */
+    font-size: 14px;
+    /* Dimensione del font moderata */
+
+
+
 }
 
 .unit-col {
@@ -364,7 +352,7 @@ select {
 
 /* Stili per il contenuto dei tab */
 .tab-content {
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     padding: 5px;
     display: none;
 }
@@ -395,7 +383,32 @@ canvas {
     height: auto;
 }
 
-.container-chart{
+.container-chart {
     width: 97vw;
     height: 75vh;
+}
+
+.dtcs-container {
+    /* padding: 20px; */
+    /* width: 300px; */
+    margin: 0 auto;
+    margin-bottom: 1%;
+    background-color: #f4f80052;
+}
+
+.dtcs-container ul {
+    margin: 1%;
+    /* list-style-type: none; */
+    padding: 1;
+}
+
+.dtcs-container li {
+    padding: 5px 0;
+    /* border-bottom: 1px solid #eee; */
+    text-align: left;
+}
+
+.border {
+    border: 1px solid #ccc;
+
 }

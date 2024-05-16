@@ -2,6 +2,8 @@ import eel
 import obd
 import tkinter as tk
 import logging
+import time
+import json
 
 obd.logger.setLevel(obd.logging.INFO)
 obd.logger.removeHandler(obd.console_handler)
@@ -81,14 +83,19 @@ def connect(port):
     global connection
     obd_port = port
     # connection = obd.OBD()
-    connection = obd.Async(port)
+    connection = obd.Async(port, delay_cmds=0.10)
 
 
 @eel.expose
 def connect_auto():
     global connection
     # connection = obd.OBD()
-    connection = obd.Async()
+    ports = obd.scan_serial()
+    for port in ports:
+        connection = obd.Async(port)
+        if connection.is_connected():
+            break
+        print(connection.print_commands())
    
 
 
@@ -105,12 +112,31 @@ def scan_ports():
 
 @eel.expose
 def read_pid(pid):
+    time.sleep(0.2)
     cmd = obd.commands[pid]
     response = connection.query(cmd)
     if response.is_null():
         return "N/A"
     else:
         return str(response.value)
+    
+
+
+@eel.expose
+def get_dtcs(pid):
+    time.sleep(0.2)
+    cmd = obd.commands[pid]
+    response = connection.query(cmd)
+    if response.is_null():
+        return "N/A"
+    else:
+    #     val = [
+    #         ("P0104", "Mass or Volume Air Flow Circuit Intermittent"),
+    #         ("P0105", "Mass or blabla"),
+    #         ("B0003", ""), 
+    #         ("C0123", "")
+    # ]
+        return json.dumps(response.value)
 
 
 @eel.expose
