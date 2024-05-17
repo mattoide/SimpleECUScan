@@ -2,7 +2,7 @@ import obd
 import time
 
 obd.logger.setLevel(obd.logging.DEBUG)
-connection = obd.OBD('/dev/pts/5')
+connection = obd.OBD('/dev/ttyUSB0', baudrate=115200, fast=False, protocol="6")
 # connection = obd.Async('/dev/pts/5')
 
 # print(connection.supported_commands)

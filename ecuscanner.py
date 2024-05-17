@@ -49,8 +49,6 @@ def update_watch(response):
     eel.updateValues(watch_values)
 
 
-
-
 @eel.expose
 def get_watch_values():
     return watch_values
@@ -83,7 +81,7 @@ def connect(port):
     global connection
     obd_port = port
     # connection = obd.OBD()
-    connection = obd.Async(port, delay_cmds=0.10)
+    connection = obd.Async(port, delay_cmds=0.25)
 
 
 @eel.expose
@@ -110,16 +108,28 @@ def scan_ports():
     return obd.scan_serial()
 
 
+# @eel.expose
+# def read_pid(pid):
+#     time.sleep(0.1)
+#     cmd = obd.commands[pid]
+#     response = connection.query(cmd)
+#     if response.is_null():
+#         return "N/A"
+#     else:
+#         return str(response.value)
+    
+
 @eel.expose
 def read_pid(pid):
-    time.sleep(0.2)
-    cmd = obd.commands[pid]
-    response = connection.query(cmd)
-    if response.is_null():
-        return "N/A"
-    else:
-        return str(response.value)
-    
+    with connection.paused() as was_running:
+        cmd = obd.commands[pid]
+        response = connection.query(cmd)
+        connection.start()
+        if response.is_null():
+            return "N/A"
+        else:
+            return str(response.value)
+
 
 
 @eel.expose
@@ -147,11 +157,25 @@ def watch_pid(pid):
 
 
 @eel.expose
-def unwatch_pid(pid):
+def watch_pid_static(pid):
+    with connection.paused() as was_running:
+        connection.watch(obd.commands[pid]) 
+        connection.start()
+
+
+@eel.expose
+def unwatch_pid_static(pid):
     with connection.paused() as was_running:
         connection.unwatch(obd.commands[pid])
-        global watch_values
+
+
+@eel.expose
+def unwatch_pid(pid):
+    global watch_values
+    with connection.paused() as was_running:
+        connection.unwatch(obd.commands[pid])
         del watch_values[pid]
+        time.sleep(0.1)
         eel.updateValues(watch_values)
 
  

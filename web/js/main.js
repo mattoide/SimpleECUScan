@@ -85,9 +85,9 @@ function stopLoader() {
 
 function setUiIfDisconnected() {
     document.getElementById("connected").textContent = 'Not connected';
-    dot.classList.toggle('green');
+    dot.classList.remove('green');
     // dot.classList.add('red');
-    dtcsList.classList.toggle('border')
+    dtcsList.classList.remove('border')
 
 
     disconnect_button.disabled = true
@@ -114,7 +114,7 @@ function setUiIfDisconnected() {
 async function setUiIfConnected() {
 
     document.getElementById("connected").textContent = 'Connected';
-    dot.classList.toggle('green');
+    dot.classList.add('green');
 
     disconnect_button.disabled = false
     unwatch_all_button.disabled = false

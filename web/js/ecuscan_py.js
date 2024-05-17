@@ -47,9 +47,10 @@ async function connectAuto() {
 }
 
 async function disconnect() {
+    available_sensors = []
+
     await eel.unwatch_all()();
     await eel.disconnect()();
-    available_sensors = []
     // clearInterval(intervalId)
     setUiIfDisconnected()
 }
@@ -246,10 +247,15 @@ async function watch(pid) {
 }
 
 async function watchStaticsPids(pid) {
-    await eel.watch_pid(pid)
+    await eel.watch_pid_static(pid)
     await readPid(pid)
-    await unwatch(pid)
+    await unwatchStatic(pid)
 
+}
+
+
+async function unwatchStatic(pid) {
+    await eel.unwatch_pid_static(pid)
 }
 
 
