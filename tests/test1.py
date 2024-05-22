@@ -1,23 +1,30 @@
+from obd import OBDCommand, Unit
+from obd.protocols import ECU
+from obd.utils import bytes_to_int
+
 import obd
 
-# Connessione all'OBD-II
-connection = obd.OBD('/dev/pts/8')
+obd.logger.setLevel(obd.logging.DEBUG)
 
-# print(connection.supported_commands)
+connection = obd.OBD('/dev/pts/3')
 
-# Lettura del valore MAP
-cmd = obd.commands.INTAKE_PRESSURE  # Comando OBD per la pressione assoluta del collettore
-INTAKE_PRESSURE = connection.query(cmd)
-cmd = obd.commands.BAROMETRIC_PRESSURE  # Comando OBD per la pressione assoluta del collettore
-BAROMETRIC_PRESSURE = connection.query(cmd)
 
-turbo_pressure = INTAKE_PRESSURE.value - BAROMETRIC_PRESSURE.value
+def rpm(messages):
+    print(str(messages[0]))
+    print(messages[0].data)
 
-print(turbo_pressure.to("bar"))
+    """ decoder for RPM messages """
+    d = messages[0].data # only operate on a single message
+    d = d[2:] # chop off mode and PID bytes
+    v = bytes_to_int(d) / 4.0  # helper function for converting byte arrays to ints
+    return v * Unit.rpm # construct a Pint Quantity
 
-    # Per ottenere la pressione del turbo
-print(f"Pressione del turbo: {turbo_pressure} kPa")
-# print("Impossibile leggere la pressione del collettore.")
+a =  OBDCommand("RPM"                        , "Engine RPM"                              , b"010c", 4, rpm,             ECU.ENGINE, True)
 
-# Chiusura della connessione
-connection.close()
+
+
+
+# use the `force` parameter when querying
+resp = connection.query(a, force=True)
+
+print(resp)
