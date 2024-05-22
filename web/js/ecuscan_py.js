@@ -2,6 +2,7 @@ let available_sensors = []
 let pids = [];
 let dtcs = []
 let statuses = []
+let has_boost = false
 
 const dtcsContainer = document.getElementById('dtcsContainer');
 
@@ -58,7 +59,16 @@ async function disconnect() {
 async function getAvailableCommands() {
     available_sensors = await eel.get_available_commands()();
 
+    has_boost = available_sensors.some(sens => { return sens.name.includes('TURBO') || sens.name.includes('BOOST') })
+
+    sensors = []
+
     sensors = available_sensors.filter(cmd => !cmd.decode.includes('drop') && !cmd.decode.includes('pid') && !cmd.decode.includes('dtc') && !cmd.name.split('_')[0].includes('DTC') && !cmd.decode.includes('status') && !cmd.decode.includes('type'));
+
+    if (!has_boost)
+        sensors.unshift({ name: 'BOOST', desc: 'Calculated boost', decode: null })
+
+
     pids = available_sensors.filter(cmd => cmd.decode.includes('pid'));
     dtcs = available_sensors.filter(cmd => cmd.decode.includes('dtc') || cmd.name.split('_')[0].includes('DTC'));
     statuses = available_sensors.filter(cmd => (cmd.decode.includes('status') || cmd.decode.includes('type')) && (!cmd.name.includes('DTC') && !cmd.name.includes('DTCs')))
@@ -66,12 +76,6 @@ async function getAvailableCommands() {
 
 }
 
-async function createGetDTCAndCearDTCs() {
-
-    // sensors = available_sensors.filter(cmd => cmd.name.includes('CLEAR_DTC') || cmd.decode.includes('GET_DTC'));
-
-
-}
 
 async function createSensorsList() {
     const sensorsList = document.getElementById('sensorsList');
@@ -88,7 +92,8 @@ async function createSensorsList() {
 
         const label = document.createElement('label');
         label.htmlFor = sensors[i].name;
-        label.textContent = sensors[i].desc + ' --- ' + sensors[i].decode;
+        // label.textContent = sensors[i].desc + ' --- ' + sensors[i].decode;
+        label.textContent = sensors[i].desc;
 
         const checkboxItem = document.createElement('div');
         checkboxItem.className = 'checkbox-item';

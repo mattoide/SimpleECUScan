@@ -48,6 +48,28 @@ def update_watch(response):
     watch_values[response.command.name] = str(response.value)
     eel.updateValues(watch_values)
 
+def update_watch_custom(a):
+    global watch_values
+    cmd = obd.commands.INTAKE_PRESSURE  # Comando OBD per la pressione assoluta del collettore
+    INTAKE_PRESSURE = connection.query(cmd)
+    cmd = obd.commands.BAROMETRIC_PRESSURE  # Comando OBD per la pressione assoluta del collettore
+    BAROMETRIC_PRESSURE = connection.query(cmd)
+    time.sleep(.01)
+    if INTAKE_PRESSURE.value is not None and BAROMETRIC_PRESSURE.value is not None:
+        turbo_pressure = INTAKE_PRESSURE.value.to('bar') - BAROMETRIC_PRESSURE.value.to('bar')
+        # print('INTAKE_PRESSURE:'   )
+        # print(INTAKE_PRESSURE.value.to('bar'))
+        # print('BAROMETRIC_PRESSURE:')
+        # print(BAROMETRIC_PRESSURE.value.to('bar'))
+        # print('turbo_pressure:')
+        # print( turbo_pressure)
+        watch_values['BOOST'] =  str(turbo_pressure.to('bar'))
+        # watch_values['BOOST'] =  str(1.5) + ' bar'
+        # print('watchvalues:')
+        # print(watch_values)
+        eel.updateValues(watch_values)
+
+
 
 @eel.expose
 def get_watch_values():
@@ -151,9 +173,27 @@ def get_dtcs(pid):
 
 @eel.expose
 def watch_pid(pid):
+    if pid == 'BOOST':
+        read_turbo()
+    else:
+        with connection.paused() as was_running:
+            connection.watch(obd.commands[pid], callback=update_watch) 
+            connection.start()
+
+@eel.expose
+def read_turbo():
     with connection.paused() as was_running:
-        connection.watch(obd.commands[pid], callback=update_watch) 
+        connection.watch(obd.commands.INTAKE_PRESSURE) 
+        connection.watch(obd.commands.BAROMETRIC_PRESSURE, callback=update_watch_custom) 
         connection.start()
+        time.sleep(1)
+        # cmd = obd.commands.INTAKE_PRESSURE  # Comando OBD per la pressione assoluta del collettore
+        # INTAKE_PRESSURE = connection.query(cmd)
+        # cmd = obd.commands.BAROMETRIC_PRESSURE  # Comando OBD per la pressione assoluta del collettore
+        # BAROMETRIC_PRESSURE = connection.query(cmd)
+        # turbo_pressure = INTAKE_PRESSURE.value - BAROMETRIC_PRESSURE.value
+        # update_watch_custom('BOOST', turbo_pressure.to("bar"))
+        
 
 
 @eel.expose
@@ -172,15 +212,21 @@ def unwatch_pid_static(pid):
 @eel.expose
 def unwatch_pid(pid):
     global watch_values
-    with connection.paused() as was_running:
-        connection.unwatch(obd.commands[pid])
-        del watch_values[pid]
-        time.sleep(0.1)
-        eel.updateValues(watch_values)
-
- 
-    if was_running:
-        connection.start()
+    if pid == 'BOOST':
+        with connection.paused() as was_running:
+            connection.unwatch(obd.commands.INTAKE_PRESSURE) 
+            connection.unwatch(obd.commands.BAROMETRIC_PRESSURE) 
+            del watch_values[pid]
+            time.sleep(0.1)
+            eel.updateValues(watch_values)
+    else:  
+        with connection.paused() as was_running:
+            connection.unwatch(obd.commands[pid])
+            del watch_values[pid]
+            time.sleep(0.1)
+            eel.updateValues(watch_values)
+        if was_running:
+            connection.start()
 
 
 @eel.expose

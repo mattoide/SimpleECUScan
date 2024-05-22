@@ -31,12 +31,15 @@ const cleat_dtcs = document.getElementById('cleat_dtcs');
 // }
 
 function updateValues(values) {
+
     updateWatchValues(values)
 }
 
 function updateWatchValues(values) {
+    console.log(values)
 
     watchList.innerHTML = '';
+    
 
     for (const [key, value] of Object.entries(values)) {
         const listItem = document.createElement('li');
